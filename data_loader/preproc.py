@@ -26,54 +26,6 @@ class Cutout(object):
 
         return img
 
-
-def search_data_transforms(dataset):
-    dataset = dataset.lower()
-    if dataset == 'cifar10':
-        MEAN = [0.49139968, 0.48215827, 0.44653124]
-        STD = [0.24703233, 0.24348505, 0.26158768]
-        transf = []
-    elif dataset == 'mnist':
-        MEAN = [0.13066051707548254]
-        STD = [0.30810780244715075]
-        transf = [
-            transforms.RandomAffine(degrees=15, translate=(0.1, 0.1), scale=(0.9, 1.1), shear=0.1)
-        ]
-    elif dataset == 'fashionmnist':
-        MEAN = [0.28604063146254594]
-        STD = [0.35302426207299326]
-        transf = [
-            transforms.RandomAffine(degrees=15, translate=(0.1, 0.1), scale=(0.9, 1.1), shear=0.1),
-            transforms.RandomVerticalFlip()
-        ]
-    elif dataset == 'imagenet':
-        MEAN = [0.485, 0.456, 0.406]
-        STD = [0.229, 0.224, 0.225]
-        transf = [
-            transforms.RandomResizedCrop(224),
-            transforms.RandomHorizontalFlip(),
-        ]
-    else:
-        raise ValueError('not expected dataset = {}'.format(dataset))
-
-    normalize = [
-        transforms.ToTensor(),
-        transforms.Normalize(MEAN, STD)
-    ]
-    if dataset == 'imagenet':
-        val_trans = [
-            transforms.Resize(256),
-            transforms.CenterCrop(224),
-            transforms.ToTensor(),
-            transforms.Normalize(MEAN, STD)
-        ]
-    else:
-        val_trans = normalize
-    train_transform = transforms.Compose(transf + normalize)
-    valid_transform = transforms.Compose(val_trans)
-    return train_transform, valid_transform
-
-
 def data_transforms(dataset, cutout_length):
     dataset = dataset.lower()
     if dataset == 'cifar10':
