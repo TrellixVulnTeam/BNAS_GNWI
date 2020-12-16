@@ -1,20 +1,22 @@
-# Dynamic Distribution Pruning for Efficient Network Architecture Search
+# Binarized Neural Architecture Search for Efficient Object Recognition
 
-Network architectures obtained by Neural Architecture Search (NAS) have shown state-of-the-art performance in various computer vision tasks. Despite the exciting progress, the computational complexity of the forward-backward propagation and the search process makes it difﬁcult to apply NAS in practice. In particular, most previous methods require thousands of GPU days for the searching process to converge. In this paper, we propose a dynamic distribution pruning method towards extremely efﬁcient NAS, which considers architectures as sampled from a dynamic joint categorical distribution. In this way, the search space is dynamically pruned in a few epochs according to this distribution, and the optimal neural architecture is obtained when there is only one structure remained in this distribution. We conduct experiments on two widely-used datasets in NAS. On CIFAR-10, the optimal structure obtained by our method achieves the state-of-the-art 1.9% test error, while the search process is more than 1,000 times faster (only 1.5 GPU hours on a Tesla V100) than the state-of-the-art NAS algorithms. On ImageNet, our model achieves 75.2% top-1 accuracy under the MobileNet settings, with a time cost of only 2 GPU days that is 2 times comparing to the fastest one.
+Traditional neural architecture search (NAS) has a significant im- pact in computer vision by automatically designing network architectures for various tasks. In this paper, binarized neural architecture search (BNAS), with a search space of binarized convolutions, is introduced to produce extremely compressed models to reduce huge computational cost on embedded devices for edge computing. The BNAS calculation is more challenging than NAS due to the learning inefficiency caused by optimization requirements and the huge architecture space, and the performance loss when handling the wild data in various computing applications. To address these issues, we introduce opera- tion space reduction and channel sampling into BNAS to significantly reduce the cost of searching. This is accomplished through a performance-based strat- egy that is robust to wild data, which is further used to abandon less potential operations. Furthermore, we introduce the Upper Confidence Bound (UCB) to solve 1-bit BNAS. Two optimization methods for binarized neural networks are used to validate the effectiveness of our BNAS. Extensive experiments demonstrate that the proposed BNAS achieves a comparable performance to NAS on both CIFAR and ImageNet databases. An accuracy of 96.53% vs. 97.22% is achieved on the CIFAR-10 dataset, but with a significantly com- pressed model, and a 40% faster search than the state-of-the-art PC-DARTS.
+
+Here we provide our test codes and pretrained models.
 
 https://arxiv.org/pdf/2009.04247.pdf
 
-![](https://github.com/paperscodes/DDPNAS_SEARCH/blob/master/figs/1.PNG)
-
-Here we provide our search codes, test codes and pretrained models can be downloaded [here](https://github.com/tanglang96/DDPNAS)
-
 ## Requirements
 
-- PyTorch 0.4.0
-- DALI
+python 3.6
+PyTorch 1.0.0
 
-## Performance
+## Run examples
 
-![](figs/2.PNG)
+You need to modified your path to dataset using --data_path_cifar.
 
-![](figs/3.PNG)
+To evaluate the model in CIFAR-10, just run
+
+```bash
+sh script/cifar10_test_xnor_larger.sh
+```
